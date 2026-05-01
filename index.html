@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust — Journey Beyond the Horizon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean: #1E88E5;
+    --ocean-dark: #1565C0;
+    --ocean-light: #64B5F6;
+    --sunset: #FB8C00;
+    --sunset-light: #FFB74D;
+    --forest: #43A047;
+    --forest-dark: #2E7D32;
+    --white: #F5F5F5;
+    --dark: #0D1B2A;
+    --mid: #1a2d42;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 1.2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(13,27,42,0.7);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.4s ease;
+  }
+  nav.scrolled { background: rgba(13,27,42,0.97); padding: 0.8rem 4rem; }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--sunset); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: rgba(245,245,245,0.8); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--sunset); }
+  .nav-cta {
+    background: var(--sunset); color: var(--dark) !important;
+    padding: 0.55rem 1.4rem; border-radius: 50px;
+    font-weight: 600 !important; transition: transform 0.3s, box-shadow 0.3s !important;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(251,140,0,0.4); color: var(--dark) !important; }
+  .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Sky gradient */
+  .sky {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #0a1628 0%, #1a3456 30%, #2d5a8e 55%, #e8854a 75%, #f4a261 88%, #e76f51 100%);
+  }
+
+  /* Sun */
+  .sun {
+    position: absolute; bottom: 38%; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, #fff8e1, #ffd54f, #fb8c00);
+    border-radius: 50%;
+    box-shadow: 0 0 60px 30px rgba(251,140,0,0.3), 0 0 120px 60px rgba(251,140,0,0.1);
+    animation: sunPulse 4s ease-in-out infinite;
+  }
+  @keyframes sunPulse { 0%,100%{box-shadow:0 0 60px 30px rgba(251,140,0,0.3),0 0 120px 60px rgba(251,140,0,0.1)} 50%{box-shadow:0 0 80px 40px rgba(251,140,0,0.4),0 0 150px 80px rgba(251,140,0,0.15)} }
+
+  /* Stars */
+  .stars {
+    position: absolute; top: 0; left: 0; width: 100%; height: 60%;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 25% 8%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 40% 20%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 60% 5%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 88% 10%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 15% 35%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 55% 30%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 80% 28%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 5% 42%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 35% 38%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 92% 35%, rgba(255,255,255,0.4), transparent);
+  }
+
+  /* Mountains layer */
+  .mountains-far {
+    position: absolute; bottom: 28%; left: 0; width: 100%; height: 30%;
+    background:
+      linear-gradient(175deg, transparent 45%, #1a3a5c 45%, #1a3a5c 55%, transparent 55%) -120px 0/240px 100%,
+      linear-gradient(170deg, transparent 42%, #1e4266 42%, #1e4266 60%, transparent 60%) 40px 0/280px 100%,
+      linear-gradient(178deg, transparent 48%, #152f4a 48%, #152f4a 56%, transparent 56%) 180px 0/220px 100%,
+      linear-gradient(172deg, transparent 40%, #243f60 40%, #243f60 62%, transparent 62%) 300px 0/320px 100%,
+      linear-gradient(175deg, transparent 44%, #1a3655 44%, #1a3655 58%, transparent 58%) 500px 0/260px 100%,
+      linear-gradient(169deg, transparent 38%, #1e4570 38%, #1e4570 64%, transparent 64%) 650px 0/300px 100%,
+      linear-gradient(176deg, transparent 46%, #152c48 46%, #152c48 57%, transparent 57%) 850px 0/230px 100%,
+      linear-gradient(171deg, transparent 41%, #2a4a6e 41%, #2a4a6e 62%, transparent 62%) 980px 0/290px 100%;
+    animation: parallaxFar 30s linear infinite;
+  }
+  @keyframes parallaxFar { from{transform:translateX(0)} to{transform:translateX(-300px)} }
+
+  .mountains-near {
+    position: absolute; bottom: 24%; left: 0; width: 150%; height: 28%;
+    background:
+      linear-gradient(178deg, transparent 42%, #1b3a2e 42%, #1b3a2e 60%, transparent 60%) 0 0/260px 100%,
+      linear-gradient(172deg, transparent 38%, #14301f 38%, #14301f 66%, transparent 66%) 150px 0/300px 100%,
+      linear-gradient(179deg, transparent 45%, #22472e 45%, #22472e 58%, transparent 58%) 330px 0/240px 100%,
+      linear-gradient(170deg, transparent 36%, #183524 36%, #183524 68%, transparent 68%) 480px 0/340px 100%,
+      linear-gradient(176deg, transparent 43%, #1f4428 43%, #1f4428 62%, transparent 62%) 700px 0/280px 100%,
+      linear-gradient(173deg, transparent 40%, #152b1a 40%, #152b1a 65%, transparent 65%) 880px 0/310px 100%,
+      linear-gradient(177deg, transparent 44%, #1d3e26 44%, #1d3e26 60%, transparent 60%) 1050px 0/250px 100%,
+      linear-gradient(171deg, transparent 37%, #19341e 37%, #19341e 67%, transparent 67%) 1200px 0/320px 100%;
+    animation: parallaxNear 20s linear infinite;
+  }
+  @keyframes parallaxNear { from{transform:translateX(0)} to{transform:translateX(-400px)} }
+
+  /* Tree silhouettes */
+  .trees {
+    position: absolute; bottom: 24%; left: 0; width: 200%; height: 6%;
+    background-image:
+      /* Pine trees */
+      linear-gradient(180deg, transparent 0%, transparent 10%, #0d2010 10%, #0d2010 100%) 0px 0/5px 100%,
+      linear-gradient(180deg, transparent 0%, transparent 5%, #0d2010 5%, #0d2010 60%, transparent 60%) -2px 0/10px 100%,
+      linear-gradient(180deg, transparent 0%, transparent 2%, #0d2010 2%, #0d2010 50%, transparent 50%) -5px 0/20px 100%,
+      linear-gradient(180deg, transparent 0%, transparent 0%, #0d2010 0%, #0d2010 100%) 30px 0/5px 100%,
+      linear-gradient(180deg, transparent 0%, transparent 5%, #0d2010 5%, #0d2010 60%, transparent 60%) 28px 0/10px 100%,
+      linear-gradient(180deg, transparent 0%, transparent 2%, #0d2010 2%, #0d2010 50%, transparent 50%) 25px 0/20px 100%;
+    animation: treesScroll 8s linear infinite;
+  }
+  @keyframes treesScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Ground / road */
+  .ground {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 25%;
+    background: linear-gradient(180deg, #2d4a1e 0%, #1a3010 30%, #3a3020 60%, #2a2015 100%);
+  }
+  .road {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 45%; height: 100%;
+    background: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%);
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+  }
+  .road::before {
+    content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+    width: 4px; top: 10%; height: 80%;
+    background: repeating-linear-gradient(180deg, #ffd54f 0px, #ffd54f 20px, transparent 20px, transparent 40px);
+    animation: dashMove 0.5s linear infinite;
+  }
+  @keyframes dashMove { from{background-position:0 0} to{background-position:0 40px} }
+
+  /* Road flat section */
+  .road-flat {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+    background: #222;
+  }
+  .road-flat::before {
+    content: ''; position: absolute; top: 40%; left: 0; right: 0; height: 4px;
+    background: rgba(255,255,255,0.15);
+  }
+  .road-flat::after {
+    content: ''; position: absolute; top: 40%; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(90deg, transparent 0, transparent 60px, rgba(255,213,79,0.7) 60px, rgba(255,213,79,0.7) 90px);
+    animation: roadLines 0.4s linear infinite;
+  }
+  @keyframes roadLines { from{background-position:0 0} to{background-position:-150px 0} }
+
+  /* Clouds */
+  .clouds {
+    position: absolute; top: 8%; left: 0; width: 200%; height: 25%; pointer-events: none;
+  }
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50px;
+    filter: blur(2px);
+  }
+  .cloud::before,.cloud::after {
+    content: ''; position: absolute;
+    background: rgba(255,255,255,0.12);
+    border-radius: 50%;
+  }
+  .c1 { width:140px;height:40px;top:20%;left:5%; animation: cloudDrift 18s linear infinite; }
+  .c1::before { width:60px;height:60px;top:-30px;left:20px; }
+  .c1::after { width:80px;height:50px;top:-20px;left:60px; }
+  .c2 { width:100px;height:30px;top:10%;left:25%; animation: cloudDrift 25s linear infinite 5s; }
+  .c2::before { width:45px;height:45px;top:-20px;left:15px; }
+  .c2::after { width:55px;height:35px;top:-12px;left:40px; }
+  .c3 { width:160px;height:45px;top:35%;left:55%; animation: cloudDrift 20s linear infinite 8s; }
+  .c3::before { width:70px;height:70px;top:-35px;left:25px; }
+  .c3::after { width:90px;height:55px;top:-22px;left:70px; }
+  .c4 { width:110px;height:32px;top:15%;left:75%; animation: cloudDrift 22s linear infinite 2s; }
+  .c4::before { width:50px;height:50px;top:-25px;left:18px; }
+  .c4::after { width:65px;height:40px;top:-15px;left:48px; }
+  @keyframes cloudDrift { from{transform:translateX(0)} to{transform:translateX(-100vw)} }
+
+  /* ─── CAR SVG SCENE ─── */
+  .car-scene {
+    position: absolute; bottom: 10%; left: 0; width: 100%;
+    display: flex; align-items: flex-end;
+    pointer-events: none;
+  }
+
+  .car-wrapper {
+    position: absolute; bottom: 0; left: -200px;
+    animation: carDrive 12s linear infinite;
+    width: 220px;
+  }
+  @keyframes carDrive {
+    0%   { left: -220px; }
+    100% { left: calc(100% + 20px); }
+  }
+
+  /* Wheels bob */
+  .car-svg { animation: carBob 0.25s ease-in-out infinite alternate; }
+  @keyframes carBob { from{transform:translateY(0)} to{transform:translateY(-2px)} }
+
+  /* Hero text */
+  .hero-content {
+    position: relative; z-index: 10;
+    text-align: center; padding: 0 2rem;
+    margin-top: -8%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(251,140,0,0.2); border: 1px solid rgba(251,140,0,0.5);
+    color: var(--sunset-light); font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 0.4rem 1.2rem; border-radius: 50px; margin-bottom: 1.5rem;
+    animation: fadeSlideUp 1s ease both 0.3s;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 1.05; font-weight: 900;
+    color: var(--white); margin-bottom: 1.5rem;
+    animation: fadeSlideUp 1s ease both 0.5s;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+  }
+  .hero-title em { color: var(--sunset); font-style: italic; }
+  .hero-sub {
+    font-size: 1.1rem; color: rgba(245,245,245,0.75);
+    max-width: 500px; margin: 0 auto 2.5rem;
+    line-height: 1.7; font-weight: 300;
+    animation: fadeSlideUp 1s ease both 0.7s;
+  }
+  .hero-buttons {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeSlideUp 1s ease both 0.9s;
+  }
+  .btn-primary {
+    background: var(--sunset); color: var(--dark);
+    padding: 0.9rem 2.4rem; border-radius: 50px; font-weight: 600;
+    font-size: 1rem; text-decoration: none; letter-spacing: 0.3px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 20px rgba(251,140,0,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(251,140,0,0.5); }
+  .btn-outline {
+    border: 2px solid rgba(245,245,245,0.4); color: var(--white);
+    padding: 0.9rem 2.4rem; border-radius: 50px; font-weight: 500;
+    font-size: 1rem; text-decoration: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: rgba(245,245,245,0.5); font-size: 0.75rem; letter-spacing: 1px;
+    text-transform: uppercase; animation: fadeSlideUp 1s ease both 1.2s;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, rgba(245,245,245,0.6), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.5;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--sunset);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .section-sub {
+    color: rgba(245,245,245,0.6); font-size: 1rem;
+    line-height: 1.8; max-width: 520px;
+  }
+  .section-header { margin-bottom: 4rem; }
+
+  /* ─── DESTINATIONS ─── */
+  #destinations { background: var(--dark); }
+  .dest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 280px 280px;
+    gap: 1.2rem;
+  }
+  .dest-card {
+    position: relative; border-radius: 16px; overflow: hidden;
+    cursor: pointer; transition: transform 0.4s ease;
+  }
+  .dest-card:hover { transform: scale(1.02); }
+  .dest-card:nth-child(1) { grid-row: 1/3; }
+  .dest-card:nth-child(4) { grid-column: 2/4; }
+
+  .dest-bg {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .dest-card:hover .dest-bg { transform: scale(1.08); }
+
+  /* Destination gradient overlays using CSS backgrounds */
+  .dest-img {
+    width: 100%; height: 100%; position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+  }
+  .dest-card:hover .dest-img { transform: scale(1.08); }
+
+  .d1 .dest-img { background: linear-gradient(135deg, #1565C0 0%, #1E88E5 40%, #43A047 70%, #2E7D32 100%); }
+  .d2 .dest-img { background: linear-gradient(135deg, #FB8C00 0%, #F4511E 50%, #B71C1C 100%); }
+  .d3 .dest-img { background: linear-gradient(135deg, #1a237e 0%, #1E88E5 40%, #00BCD4 100%); }
+  .d4 .dest-img { background: linear-gradient(135deg, #43A047 0%, #1B5E20 40%, #0D47A1 100%); }
+  .d5 .dest-img { background: linear-gradient(135deg, #4A148C 0%, #880E4F 50%, #FB8C00 100%); }
+
+  /* SVG landscape art inside cards */
+  .d1 .dest-img::after { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Cellipse cx='200' cy='400' rx='250' ry='80' fill='rgba(0,0,0,0.2)'/%3E%3Cpolygon points='100,350 200,150 300,350' fill='rgba(255,255,255,0.1)'/%3E%3Cpolygon points='30,350 160,100 290,350' fill='rgba(255,255,255,0.07)'/%3E%3Ccircle cx='280' cy='80' r='40' fill='rgba(255,200,0,0.3)'/%3E%3C/svg%3E") center/cover no-repeat; }
+  .d2 .dest-img::after { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect x='80' y='60' width='140' height='100' fill='rgba(255,255,255,0.1)'/%3E%3Crect x='120' y='40' width='60' height='120' fill='rgba(255,255,255,0.08)'/%3E%3Cellipse cx='150' cy='170' rx='100' ry='20' fill='rgba(0,0,0,0.3)'/%3E%3C/svg%3E") center/cover no-repeat; }
+  .d3 .dest-img::after { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Cellipse cx='150' cy='170' rx='160' ry='60' fill='rgba(30,136,229,0.3)'/%3E%3Cpath d='M0,120 Q75,80 150,100 Q225,120 300,90 L300,200 L0,200Z' fill='rgba(30,136,229,0.4)'/%3E%3Ccircle cx='80' cy='60' r='30' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E") center/cover no-repeat; }
+  .d4 .dest-img::after { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Cpath d='M0,140 Q50,100 100,120 Q150,140 200,110 Q250,80 300,130 L300,200 L0,200Z' fill='rgba(67,160,71,0.4)'/%3E%3Ccircle cx='240' cy='50' r='35' fill='rgba(255,200,0,0.3)'/%3E%3C/svg%3E") center/cover no-repeat; }
+  .d5 .dest-img::after { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Cpolygon points='50,180 150,30 250,180' fill='rgba(255,255,255,0.1)'/%3E%3Cpolygon points='0,180 80,60 160,180' fill='rgba(255,255,255,0.07)'/%3E%3Cpolygon points='140,180 220,70 300,180' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E") center/cover no-repeat; }
+
+  .dest-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.9) 0%, rgba(13,27,42,0.2) 50%, transparent 100%);
+  }
+  .dest-info {
+    position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+  }
+  .dest-tag {
+    display: inline-block; font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--sunset-light); margin-bottom: 0.4rem;
+  }
+  .dest-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .d1 .dest-name { font-size: 2rem; }
+  .dest-meta { font-size: 0.85rem; color: rgba(245,245,245,0.65); }
+  .dest-arrow {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1rem;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .dest-card:hover .dest-arrow { opacity: 1; transform: translateY(0); }
+
+  /* ─── PACKAGES ─── */
+  #packages { background: var(--mid); }
+  .pkg-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .pkg-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 2.2rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .pkg-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(251,140,0,0.08), transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .pkg-card:hover { transform: translateY(-8px); border-color: rgba(251,140,0,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .pkg-card:hover::before { opacity: 1; }
+  .pkg-card.featured {
+    border-color: var(--sunset);
+    background: rgba(251,140,0,0.06);
+  }
+  .pkg-card.featured::before { opacity: 1; }
+  .pkg-badge {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    background: var(--sunset); color: var(--dark);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 50px;
+  }
+  .pkg-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 1.5rem;
+  }
+  .pkg-icon.blue { background: rgba(30,136,229,0.2); }
+  .pkg-icon.orange { background: rgba(251,140,0,0.2); }
+  .pkg-icon.green { background: rgba(67,160,71,0.2); }
+  .pkg-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; margin-bottom: 0.5rem;
+  }
+  .pkg-tagline { font-size: 0.9rem; color: rgba(245,245,245,0.55); margin-bottom: 1.5rem; line-height: 1.6; }
+  .pkg-features { list-style: none; margin-bottom: 2rem; }
+  .pkg-features li {
+    font-size: 0.9rem; color: rgba(245,245,245,0.75);
+    padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .pkg-features li::before { content: '✓'; color: var(--forest); font-weight: 700; }
+  .pkg-price {
+    display: flex; align-items: flex-end; gap: 0.4rem; margin-bottom: 1.5rem;
+  }
+  .price-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem; font-weight: 900; color: var(--white);
+    line-height: 1;
+  }
+  .price-per { font-size: 0.85rem; color: rgba(245,245,245,0.5); padding-bottom: 0.3rem; }
+  .pkg-btn {
+    width: 100%; padding: 0.85rem; border-radius: 50px; border: none;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .pkg-btn.solid { background: var(--sunset); color: var(--dark); }
+  .pkg-btn.bordered { background: transparent; border: 2px solid rgba(255,255,255,0.2); color: var(--white); }
+  .pkg-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .pkg-btn.solid:hover { box-shadow: 0 8px 24px rgba(251,140,0,0.4); }
+
+  /* ─── GALLERY ─── */
+  #gallery { background: var(--dark); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 200px);
+    gap: 1rem;
+  }
+  .gal-item {
+    border-radius: 12px; overflow: hidden; cursor: pointer;
+    position: relative;
+  }
+  .gal-item:nth-child(1) { grid-column: 1/3; grid-row: 1/2; }
+  .gal-item:nth-child(3) { grid-column: 3/5; grid-row: 1/3; }
+  .gal-item:nth-child(5) { grid-column: 1/2; grid-row: 2/3; }
+  .gal-item:nth-child(6) { grid-column: 2/3; grid-row: 2/3; }
+
+  .gal-bg {
+    width: 100%; height: 100%;
+    transition: transform 0.5s ease;
+  }
+  .gal-item:hover .gal-bg { transform: scale(1.1); }
+  .g1 .gal-bg { background: linear-gradient(135deg, #0D47A1, #1E88E5, #4CAF50); }
+  .g2 .gal-bg { background: linear-gradient(135deg, #E65100, #FB8C00, #FFD54F); }
+  .g3 .gal-bg { background: linear-gradient(160deg, #1B5E20, #388E3C, #1E88E5, #0D47A1); }
+  .g4 .gal-bg { background: linear-gradient(135deg, #880E4F, #E91E63, #FF6F00); }
+  .g5 .gal-bg { background: linear-gradient(135deg, #006064, #00BCD4, #1E88E5); }
+  .g6 .gal-bg { background: linear-gradient(135deg, #4A148C, #7B1FA2, #FB8C00); }
+
+  .gal-overlay {
+    position: absolute; inset: 0;
+    background: rgba(13,27,42,0.5);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .gal-item:hover .gal-overlay { opacity: 1; }
+
+  /* Decorative shapes on gallery items */
+  .gal-bg::after { content: ''; position: absolute; inset: 0; }
+  .g1 .gal-bg::before { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'%3E%3Cpath d='M0,100 Q100,50 200,80 Q300,110 400,60 L400,200 L0,200Z' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E") bottom/cover no-repeat; }
+  .g2 .gal-bg::before { content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='70' fill='rgba(255,255,255,0.08)'/%3E%3Ccircle cx='100' cy='100' r='50' fill='rgba(255,255,255,0.06)'/%3E%3C/svg%3E") center/contain no-repeat; }
+
+  /* Stats strip */
+  .stats-strip {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 0; border-top: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-top: 5rem;
+  }
+  .stat-item {
+    padding: 2.5rem; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 900; color: var(--white);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--sunset); }
+  .stat-label { font-size: 0.85rem; color: rgba(245,245,245,0.5); margin-top: 0.4rem; letter-spacing: 0.5px; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--mid);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start;
+  }
+  .contact-info { }
+  .contact-info .section-sub { margin-bottom: 2.5rem; }
+  .contact-detail {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(30,136,229,0.15); border: 1px solid rgba(30,136,229,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-text h4 { font-size: 0.85rem; color: rgba(245,245,245,0.5); margin-bottom: 0.2rem; }
+  .contact-text p { font-size: 0.95rem; color: var(--white); }
+  .contact-form {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px; padding: 2.5rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block; font-size: 0.82rem; font-weight: 500;
+    color: rgba(245,245,245,0.6); margin-bottom: 0.5rem; letter-spacing: 0.3px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 0.85rem 1.1rem;
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(245,245,245,0.3); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--ocean); background: rgba(30,136,229,0.07);
+  }
+  .form-group select option { background: #1a2d42; color: var(--white); }
+  .form-group textarea { height: 120px; resize: vertical; }
+  .form-submit {
+    width: 100%; padding: 1rem; border-radius: 50px; border: none;
+    background: var(--sunset); color: var(--dark);
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; letter-spacing: 0.3px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(251,140,0,0.5); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark); border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 4rem 4rem 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand .logo { display: block; margin-bottom: 1rem; }
+  .footer-desc { font-size: 0.9rem; color: rgba(245,245,245,0.5); line-height: 1.7; max-width: 260px; }
+  .footer-social { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+  .social-btn {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(245,245,245,0.6); font-size: 0.9rem; text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .social-btn:hover { background: var(--sunset); color: var(--dark); border-color: var(--sunset); }
+  .footer-col h4 {
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--white); margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.7rem; }
+  .footer-col ul li a {
+    color: rgba(245,245,245,0.5); text-decoration: none; font-size: 0.9rem;
+    transition: color 0.3s;
+  }
+  .footer-col ul li a:hover { color: var(--sunset); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: 0.85rem; color: rgba(245,245,245,0.35); }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width: 1024px) {
+    .dest-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .dest-card:nth-child(1) { grid-row: auto; }
+    .dest-card:nth-child(4) { grid-column: auto; }
+    .pkg-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 180px); }
+    .gal-item:nth-child(1) { grid-column: 1/3; }
+    .gal-item:nth-child(3) { grid-column: auto; grid-row: auto; }
+    #contact { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .stats-strip { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media(max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav.scrolled { padding: 0.7rem 1.5rem; }
+    .nav-links { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(13,27,42,0.98); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; font-size: 1.1rem; }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; z-index: 1001; }
+    section { padding: 5rem 1.5rem; }
+    .dest-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .dest-card { height: 220px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 150px); }
+    .gal-item:nth-child(3) { grid-column: 1/3; }
+    .stats-strip { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-title { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="logo">Wander<span>lust</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="sky"></div>
+  <div class="stars"></div>
+  <div class="clouds">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="cloud c4"></div>
+  </div>
+  <div class="mountains-far"></div>
+  <div class="mountains-near"></div>
+  <div class="trees"></div>
+  <div class="ground">
+    <div class="road"></div>
+  </div>
+  <div class="road-flat"></div>
+
+  <!-- Animated Car Scene -->
+  <div class="car-scene">
+    <div class="car-wrapper">
+      <svg class="car-svg" viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg" width="220">
+        <!-- Car body -->
+        <rect x="10" y="45" width="200" height="35" rx="8" fill="#1E3A5F"/>
+        <!-- Roof -->
+        <path d="M55 45 Q65 20 95 18 L155 18 Q175 18 185 45Z" fill="#1565C0"/>
+        <!-- Windshield -->
+        <path d="M95 20 Q100 22 140 22 L175 44 Q155 44 85 44Z" fill="rgba(100,181,246,0.6)"/>
+        <!-- Rear window -->
+        <path d="M70 44 L95 22 Q68 22 60 44Z" fill="rgba(100,181,246,0.45)"/>
+        <!-- Side window girl -->
+        <rect x="100" y="24" width="38" height="16" rx="3" fill="rgba(100,181,246,0.5)"/>
+        <!-- Girl silhouette -->
+        <circle cx="122" cy="26" r="5" fill="#FFB74D"/>
+        <path d="M117 30 Q122 35 127 30" fill="none" stroke="#FFB74D" stroke-width="1.5"/>
+        <!-- Girl hair -->
+        <path d="M117 23 Q122 18 127 23 Q127 26 122 27 Q117 26 117 23Z" fill="#8D4A1B"/>
+        <!-- Driver silhouette -->
+        <circle cx="155" cy="26" r="5" fill="#FFB74D"/>
+        <path d="M150 31 Q155 36 160 31" fill="none" stroke="#FFB74D" stroke-width="1.5"/>
+        <!-- Steering wheel -->
+        <circle cx="162" cy="34" r="4" fill="none" stroke="#FB8C00" stroke-width="1.5"/>
+        <!-- Body stripe -->
+        <rect x="10" y="68" width="200" height="4" rx="2" fill="#1E88E5" opacity="0.5"/>
+        <!-- Headlights -->
+        <ellipse cx="208" cy="60" rx="6" ry="4" fill="#FFF9C4" opacity="0.9"/>
+        <ellipse cx="208" cy="60" rx="10" ry="6" fill="rgba(255,249,196,0.25)"/>
+        <!-- Tail light -->
+        <rect x="12" y="56" width="8" height="8" rx="2" fill="#E53935" opacity="0.85"/>
+        <!-- Door lines -->
+        <line x1="100" y1="45" x2="100" y2="80" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="145" y1="45" x2="145" y2="80" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- Door handle -->
+        <rect x="108" y="60" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+        <rect x="153" y="60" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+        <!-- Wheels -->
+        <circle cx="55" cy="80" r="14" fill="#111"/>
+        <circle cx="55" cy="80" r="10" fill="#222" stroke="#444" stroke-width="1"/>
+        <circle cx="55" cy="80" r="5" fill="#555"/>
+        <circle cx="165" cy="80" r="14" fill="#111"/>
+        <circle cx="165" cy="80" r="10" fill="#222" stroke="#444" stroke-width="1"/>
+        <circle cx="165" cy="80" r="5" fill="#555"/>
+        <!-- Wheel spokes -->
+        <line x1="55" y1="70" x2="55" y2="90" stroke="#666" stroke-width="1.5"/>
+        <line x1="45" y1="80" x2="65" y2="80" stroke="#666" stroke-width="1.5"/>
+        <line x1="165" y1="70" x2="165" y2="90" stroke="#666" stroke-width="1.5"/>
+        <line x1="155" y1="80" x2="175" y2="80" stroke="#666" stroke-width="1.5"/>
+        <!-- Shadow -->
+        <ellipse cx="110" cy="94" rx="80" ry="5" fill="rgba(0,0,0,0.3)"/>
+        <!-- Exhaust smoke -->
+        <circle cx="5" cy="70" r="4" fill="rgba(200,200,200,0.2)">
+          <animate attributeName="r" values="2;8;12" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0.2;0" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="cx" values="5;-5;-20" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="70;65;58" dur="1.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="5" cy="70" r="3" fill="rgba(200,200,200,0.2)">
+          <animate attributeName="r" values="2;6;10" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0.15;0" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="cx" values="5;-8;-22" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="70;63;55" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">✈ Discover the World</div>
+    <h1 class="hero-title">Life is Short,<br><em>Travel Far</em></h1>
+    <p class="hero-sub">Curated journeys across breathtaking landscapes. Every road leads to a story worth telling.</p>
+    <div class="hero-buttons">
+      <a href="#destinations" class="btn-primary">Explore Destinations</a>
+      <a href="#packages" class="btn-outline">View Packages</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <div class="section-header reveal">
+    <div class="section-label">📍 Where to Go</div>
+    <h2 class="section-title">Dream <em style="font-style:italic;color:var(--sunset)">Destinations</em></h2>
+    <p class="section-sub">From misty mountain peaks to sun-drenched coastlines — find your next great escape.</p>
+  </div>
+  <div class="dest-grid reveal">
+    <div class="dest-card d1">
+      <div class="dest-img"></div>
+      <div class="dest-overlay"></div>
+      <div class="dest-arrow">↗</div>
+      <div class="dest-info">
+        <div class="dest-tag">🏔 Himalaya Range</div>
+        <div class="dest-name">Nepal & Tibet</div>
+        <div class="dest-meta">12 days • From $2,490</div>
+      </div>
+    </div>
+    <div class="dest-card d2">
+      <div class="dest-img"></div>
+      <div class="dest-overlay"></div>
+      <div class="dest-arrow">↗</div>
+      <div class="dest-info">
+        <div class="dest-tag">🏛 Ancient Cities</div>
+        <div class="dest-name">Morocco</div>
+        <div class="dest-meta">8 days • From $1,890</div>
+      </div>
+    </div>
+    <div class="dest-card d3">
+      <div class="dest-img"></div>
+      <div class="dest-overlay"></div>
+      <div class="dest-arrow">↗</div>
+      <div class="dest-info">
+        <div class="dest-tag">🏝 Island Life</div>
+        <div class="dest-name">Maldives</div>
+        <div class="dest-meta">7 days • From $3,200</div>
+      </div>
+    </div>
+    <div class="dest-card d4">
+      <div class="dest-img"></div>
+      <div class="dest-overlay"></div>
+      <div class="dest-arrow">↗</div>
+      <div class="dest-info">
+        <div class="dest-tag">🌿 Rainforest</div>
+        <div class="dest-name">Costa Rica & Amazon</div>
+        <div class="dest-meta">10 days • From $2,150</div>
+      </div>
+    </div>
+    <div class="dest-card d5">
+      <div class="dest-img"></div>
+      <div class="dest-overlay"></div>
+      <div class="dest-arrow">↗</div>
+      <div class="dest-info">
+        <div class="dest-tag">🌌 Northern Lights</div>
+        <div class="dest-name">Iceland</div>
+        <div class="dest-meta">9 days • From $2,780</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="section-header reveal" style="text-align:center;max-width:600px;margin:0 auto 4rem;">
+    <div class="section-label">🎒 Travel Plans</div>
+    <h2 class="section-title">Pick Your <em style="font-style:italic;color:var(--sunset)">Package</em></h2>
+    <p class="section-sub" style="margin:0 auto;">Every journey is unique. Choose the experience that matches your spirit.</p>
+  </div>
+  <div class="pkg-grid">
+    <div class="pkg-card reveal">
+      <div class="pkg-icon blue">🌊</div>
+      <div class="pkg-name">Explorer</div>
+      <div class="pkg-tagline">Perfect for solo adventurers who love flexibility and authentic local experiences.</div>
+      <ul class="pkg-features">
+        <li>Guided city tours</li>
+        <li>Budget accommodations</li>
+        <li>Local transport included</li>
+        <li>24/7 support hotline</li>
+      </ul>
+      <div class="pkg-price">
+        <div class="price-num">$899</div>
+        <div class="price-per">/ person</div>
+      </div>
+      <button class="pkg-btn bordered">Get Started</button>
+    </div>
+    <div class="pkg-card featured reveal">
+      <div class="pkg-badge">Most Popular</div>
+      <div class="pkg-icon orange">🌅</div>
+      <div class="pkg-name">Voyager</div>
+      <div class="pkg-tagline">Curated mid-range journeys for couples and small groups seeking memorable moments.</div>
+      <ul class="pkg-features">
+        <li>Premium hotel stays</li>
+        <li>Private transfers</li>
+        <li>Cultural experiences</li>
+        <li>Travel insurance</li>
+        <li>Dedicated guide</li>
+      </ul>
+      <div class="pkg-price">
+        <div class="price-num">$1,799</div>
+        <div class="price-per">/ person</div>
+      </div>
+      <button class="pkg-btn solid">Book Now</button>
+    </div>
+    <div class="pkg-card reveal">
+      <div class="pkg-icon green">🏆</div>
+      <div class="pkg-name">Luminary</div>
+      <div class="pkg-tagline">Ultra-luxury bespoke travel for those who demand the extraordinary at every step.</div>
+      <ul class="pkg-features">
+        <li>5-star resorts & villas</li>
+        <li>Private jet transfers</li>
+        <li>Personal concierge</li>
+        <li>Exclusive experiences</li>
+        <li>Gourmet dining</li>
+      </ul>
+      <div class="pkg-price">
+        <div class="price-num">$4,999</div>
+        <div class="price-per">/ person</div>
+      </div>
+      <button class="pkg-btn bordered">Enquire</button>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header reveal">
+    <div class="section-label">📸 Moments</div>
+    <h2 class="section-title">Through the <em style="font-style:italic;color:var(--sunset)">Lens</em></h2>
+    <p class="section-sub">A glimpse into the worlds waiting for you.</p>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gal-item g1"><div class="gal-bg"></div><div class="gal-overlay">🏔</div></div>
+    <div class="gal-item g2"><div class="gal-bg"></div><div class="gal-overlay">🌅</div></div>
+    <div class="gal-item g3"><div class="gal-bg"></div><div class="gal-overlay">🌲</div></div>
+    <div class="gal-item g4"><div class="gal-bg"></div><div class="gal-overlay">🌺</div></div>
+    <div class="gal-item g5"><div class="gal-bg"></div><div class="gal-overlay">🌊</div></div>
+    <div class="gal-item g6"><div class="gal-bg"></div><div class="gal-overlay">🌌</div></div>
+  </div>
+  <div class="stats-strip reveal">
+    <div class="stat-item">
+      <div class="stat-num"><span id="c1">0</span><span>+</span></div>
+      <div class="stat-label">Destinations Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span id="c2">0</span><span>K</span></div>
+      <div class="stat-label">Happy Travellers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span id="c3">0</span><span>+</span></div>
+      <div class="stat-label">Expert Guides</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span id="c4">0</span><span>/5</span></div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-info reveal">
+    <div class="section-label">✉ Let's Talk</div>
+    <h2 class="section-title">Plan Your <em style="font-style:italic;color:var(--sunset)">Adventure</em></h2>
+    <p class="section-sub">Ready to embark? Our travel experts are here to craft the perfect itinerary just for you.</p>
+
+    <div style="margin-top:2.5rem;">
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        <div class="contact-text">
+          <h4>Office</h4>
+          <p>14 Horizon Avenue, Mumbai, India</p>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📞</div>
+        <div class="contact-text">
+          <h4>Phone</h4>
+          <p>+91 98765 43210</p>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">✉</div>
+        <div class="contact-text">
+          <h4>Email</h4>
+          <p>hello@wanderlust.travel</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;padding:1.5rem;background:rgba(30,136,229,0.08);border:1px solid rgba(30,136,229,0.2);border-radius:16px;">
+      <div style="font-size:0.85rem;color:rgba(245,245,245,0.6);margin-bottom:0.3rem;">Response time</div>
+      <div style="font-weight:600;color:var(--ocean-light);">We reply within 2 hours ⚡</div>
+    </div>
+  </div>
+
+  <div class="contact-form reveal">
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:1.5rem;">Book a Consultation</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="Arjun">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Sharma">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="arjun@email.com">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Destination</label>
+        <select>
+          <option>Nepal & Tibet</option>
+          <option>Morocco</option>
+          <option>Maldives</option>
+          <option>Costa Rica</option>
+          <option>Iceland</option>
+          <option>Custom Route</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Travel Package</label>
+        <select>
+          <option>Explorer — $899</option>
+          <option>Voyager — $1,799</option>
+          <option>Luminary — $4,999</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea placeholder="Tell us your dream trip details, travel dates, group size…"></textarea>
+    </div>
+    <button class="form-submit" onclick="submitForm(this)">Send Message →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Wander<span>lust</span></div>
+      <p class="footer-desc">We craft unforgettable journeys for curious souls. Every trip is a story. Let's write yours.</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">in</a>
+        <a class="social-btn" href="#">📸</a>
+        <a class="social-btn" href="#">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#">Destinations</a></li>
+        <li><a href="#">Packages</a></li>
+        <li><a href="#">Group Tours</a></li>
+        <li><a href="#">Honeymoon</a></li>
+        <li><a href="#">Adventure</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Cancellation</a></li>
+        <li><a href="#">Safety</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Wanderlust. All rights reserved.</p>
+    <p>Made with ❤ for explorers everywhere</p>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Counter animation
+  const counters = [
+    { id: 'c1', target: 120, suffix: '' },
+    { id: 'c2', target: 48,  suffix: '' },
+    { id: 'c3', target: 85,  suffix: '' },
+    { id: 'c4', target: 4.9, suffix: '', decimal: true },
+  ];
+  let counted = false;
+  const statsObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      counters.forEach(({ id, target, decimal }) => {
+        const el = document.getElementById(id);
+        const start = Date.now();
+        const duration = 1800;
+        const tick = () => {
+          const p = Math.min((Date.now() - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          const val = decimal ? (ease * target).toFixed(1) : Math.round(ease * target);
+          el.textContent = val;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        tick();
+      });
+    }
+  }, { threshold: 0.5 });
+  const statsEl = document.querySelector('.stats-strip');
+  if (statsEl) statsObserver.observe(statsEl);
+
+  // Form submit
+  function submitForm(btn) {
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = 'var(--forest)';
+    btn.style.color = 'white';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  }
+
+  // Parallax on scroll
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const mFar = document.querySelector('.mountains-far');
+    const mNear = document.querySelector('.mountains-near');
+    if (mFar) mFar.style.transform = `translateX(${-scrollY * 0.15}px)`;
+    if (mNear) mNear.style.transform = `translateX(${-scrollY * 0.25}px)`;
+  });
+</script>
+</body>
+</html>
